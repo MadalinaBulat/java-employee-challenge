@@ -63,7 +63,7 @@ class EmployeeServiceImplTest {
     @Test
     void testGetEmployeeById() {
         Employee employee = employeeService.getEmployeeById("123");
-        assertNull(employee); // Expecting null as there’s no real API response
+        assertNull(employee);
     }
 
     /**
@@ -75,7 +75,7 @@ class EmployeeServiceImplTest {
     void testCreateEmployee() {
         Employee newEmployee = new Employee("1", "John Doe", 50000, 30, "Engineer", "john@example.com");
         Employee createdEmployee = employeeService.createEmployee(newEmployee);
-        assertNull(createdEmployee); // Expecting null as no actual creation happens
+        assertNull(createdEmployee);
     }
 
     /**
@@ -86,7 +86,7 @@ class EmployeeServiceImplTest {
     @Test
     void testGetHighestSalary() {
         int highestSalary = employeeService.getHighestSalaryOfEmployees();
-        assertEquals(0, highestSalary); // Since there are no employees, it should return 0
+        assertEquals(0, highestSalary);
     }
 
     /**
@@ -97,6 +97,6 @@ class EmployeeServiceImplTest {
     @Test
     void testGetTopTenHighestEarningEmployees() {
         List<String> topEarners = employeeService.getTopTenHighestEarningEmployeeNames();
-        assertNotNull(topEarners); // The method should return a list (even if empty)
+        assertNotNull(topEarners);
     }
 }

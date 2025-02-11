@@ -30,14 +30,17 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public List<Employee> getAllEmployees() {
+        // Send a GET request to the API to fetch all employees
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(BASE_URL))
                     .GET()
                     .build();
 
+            // Send the request and parse the response
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
+            // Convert the response to a list of Employee objects
             Map<String, Object> responseMap = objectMapper.readValue(response.body(), Map.class);
             return objectMapper.convertValue(responseMap.get("data"), new TypeReference<List<Employee>>() {});
         } catch (Exception e) {
@@ -103,9 +106,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(BASE_URL + "/" + id))
-                    .DELETE()
-                    .build();
+                    .DELETE() // Send a DELETE request
+                    .build(); // Build the request
 
+            // Send the request and return the response
             httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             return "Employee deleted successfully.";
         } catch (Exception e) {
@@ -116,25 +120,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public int getHighestSalaryOfEmployees() {
+        // Get all the employees and find the one with the highest salary using streams
         return getAllEmployees().stream()
-                .mapToInt(Employee::getSalary)
-                .max()
-                .orElse(0);
+                .mapToInt(Employee::getSalary) // Convert the list to an IntStream of salaries
+                .max() // Find the maximum salary
+                .orElse(0); // Return 0 if there are no employees
     }
 
     @Override
     public List<String> getTopTenHighestEarningEmployeeNames() {
-        return getAllEmployees().stream()
-                .sorted((a, b) -> Integer.compare(b.getSalary(), a.getSalary()))
-                .limit(10)
-                .map(Employee::getName)
-                .toList();
+        return getAllEmployees().stream() // Get all employees
+                .sorted((a, b) -> Integer.compare(b.getSalary(), a.getSalary())) // Sort by salary in descending order
+                .limit(10)  // Get the top 10 employees
+                .map(Employee::getName) // Extract the names
+                .toList(); // Convert to a list
     }
 
     @Override
     public List<Employee> getEmployeesByNameSearch(String name) {
-        return getAllEmployees().stream()
-                .filter(emp -> emp.getName().toLowerCase().contains(name.toLowerCase()))
+        return getAllEmployees().stream() // Get all employees
+                .filter(emp -> emp.getName().toLowerCase().contains(name.toLowerCase())) // Filter by name
                 .toList();
     }
 }

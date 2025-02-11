@@ -8,6 +8,6 @@ class ApiApplicationTest {
 
     @Test
     void someTest() {
-        // do the thing here
+        // assertNotNull(context);
     }
 }
